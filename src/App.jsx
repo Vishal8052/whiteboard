@@ -7,7 +7,6 @@ import {DrawingBoard} from './components/DrawingBoard'
 function App() {
   return (
     <>
-      <div className={Styles.main}>Welcome to TCGMCUBE!</div>
       <DrawingBoard/>
     </>
   )

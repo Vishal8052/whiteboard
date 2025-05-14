@@ -1,21 +1,42 @@
-.main{
+.main_Toolbar{
     display: flex;
-    position: absolute;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
     align-self: center;
     background-color: none;
-    width: 50%;
     height: 3rem;
     border-radius: 5px;
     box-shadow: 1px 1px 10px 1px #d8d8d8;
+    z-index: 999;
 }
 
-.main div{
+.tool{
+    position: relative;
+    margin: 1rem;
     padding: 0.5rem;
     border-radius: 5px;
 }
 
-.main div:hover{
+.tool:hover{
     background-color: rgb(177, 207, 226);
+}
+
+
+.tooltip {
+    visibility: hidden;
+    position: absolute;
+    white-space: nowrap;
+    left: 30%;
+    bottom: -1.5rem;
+    text-align: center;
+    font-size: 10px;
+    color: rgb(25, 13, 13);
+}
+
+.tool:hover .tooltip {
+    visibility: visible;
+}
+
+.active {
+    background-color: rgb(100, 149, 237); /* A distinct blue for the active tool */
 }

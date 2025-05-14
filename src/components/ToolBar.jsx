@@ -1,27 +1,40 @@
-import Styles from '../styles/ToolBar.module.css'
-import { useState } from 'react';
+import Styles from '../styles/ToolBar.module.css';
+import { TOOLS} from '../constants.jsx';
 
-const ToolBar = ()=>{
-    const [activeTool, setActiveTool] = useState("");
+const Tool = ({selectedTool, clearBoard, setSelectedTool, name, icon, undo,redo})=>{
+  return(
+        <div 
+          className={`${Styles.tool} ${selectedTool===name? Styles.active: ''}`}
+          onClick={() =>{
+            if(name==="clear") clearBoard();
+            else if(name==="undo") undo();
+            else if(name==="redo") redo();
+            else setSelectedTool(name);
+          }}
+        >
+        {icon}
+        </div>
+  )
+}
+
+const ToolBar = ({selectedTool, setSelectedTool, clearBoard, undo, redo})=>{
     return(
         <>
-        <div className={Styles.main}>
-        <div className={Styles.line}>
-            <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
-                stroke-linejoin="round"
-            >
-                <line x1="4" y1="20" x2="20" y2="4" />
-            </svg>
-        </div>
-
+        <div className={Styles.main_Toolbar}>
+          {
+            TOOLS.map((tool)=>(
+              <Tool
+               key={tool.name}
+               selectedTool={selectedTool}
+               setSelectedTool={setSelectedTool}
+               clearBoard={clearBoard}
+               name={tool.name}
+               icon={tool.icon}
+               undo={undo} 
+               redo={redo}
+              />
+            ))
+          }
         </div>
         </>
     )

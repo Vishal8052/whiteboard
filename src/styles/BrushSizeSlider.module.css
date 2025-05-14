@@ -1,0 +1,46 @@
+.slider-container {
+    width: 50%;
+  }
+  
+  label {
+    display: block;
+    margin-left:2rem;
+    margin-bottom: 5px;
+    font-family: 'Roboto';
+  }
+  
+  input[type="range"] {
+    margin-left:2rem;
+    margin-top: 0.5rem;
+    width: 60%;
+    -webkit-appearance: none;
+    background: #ddd;
+    border-radius: 5px;
+    height: 8px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+  
+  /* Optional: Hover effect */
+  input[type="range"]:hover {
+    background: #ccc;
+  }
+
+  
