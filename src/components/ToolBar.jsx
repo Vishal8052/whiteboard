@@ -1,7 +1,8 @@
 import Styles from '../styles/ToolBar.module.css';
 import { TOOLS} from '../constants.jsx';
 
-const Tool = ({selectedTool, clearBoard, setSelectedTool, name, icon, undo,redo})=>{
+
+const Tool = ({selectedTool, clearBoard, setSelectedTool, name, icon, undo,redo, save})=>{
   return(
         <div 
           className={`${Styles.tool} ${selectedTool===name? Styles.active: ''}`}
@@ -9,6 +10,7 @@ const Tool = ({selectedTool, clearBoard, setSelectedTool, name, icon, undo,redo}
             if(name==="clear") clearBoard();
             else if(name==="undo") undo();
             else if(name==="redo") redo();
+            else if(name==="save") save();
             else setSelectedTool(name);
           }}
         >
@@ -17,7 +19,7 @@ const Tool = ({selectedTool, clearBoard, setSelectedTool, name, icon, undo,redo}
   )
 }
 
-const ToolBar = ({selectedTool, setSelectedTool, clearBoard, undo, redo})=>{
+const ToolBar = ({selectedTool, setSelectedTool, clearBoard, undo, redo, save})=>{
     return(
         <>
         <div className={Styles.main_Toolbar}>
@@ -32,6 +34,7 @@ const ToolBar = ({selectedTool, setSelectedTool, clearBoard, undo, redo})=>{
                icon={tool.icon}
                undo={undo} 
                redo={redo}
+               save={save}
               />
             ))
           }

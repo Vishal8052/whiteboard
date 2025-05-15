@@ -40,11 +40,11 @@ const DrawingBoard = ()=>{
 
     const [currentBrushSize, setCurrentBrushSize] = useState(1);
     const [currentBrushColor, setBrushColor] = useState("black");
+    const [currFillColor, setFillColor] = useState("black");
 
     //save the elements in the local storage as soon as the elements array changes
     useEffect(()=>{
         localStorage.setItem('drawingElements',JSON.stringify(elements));
-        reDrawCanvas(elements);
     },[elements]);
 
     useEffect(()=>{
@@ -59,6 +59,7 @@ const DrawingBoard = ()=>{
         persistentCtxRef.current.font = `${currentBrushSize}px 'Architects Daughter'`;
         persistentCtxRef.current.lineWidth = currentBrushSize;
         persistentCtxRef.current.strokeStyle = currentBrushColor;
+        persistentCtxRef.current.fillStyle = currFillColor;
 
         tempCtxRef.current = tempCanvas.getContext("2d");
         tempCtxRef.current.font = `${currentBrushSize}px 'Architects Daughter'`;
@@ -273,14 +274,14 @@ const DrawingBoard = ()=>{
             const y = Math.min(startPoint.y,e.nativeEvent.offsetY);
             const width = Math.abs(startPoint.x-e.nativeEvent.offsetX);
             const height = Math.abs(startPoint.y-e.nativeEvent.offsetY);
-            drawRectangle(tempCtx,x,y,width,height);
+            drawRectangle(tempCtx,x,y,width,height,currFillColor);
         }
         else if(selectedTool==="circle"){
             const centerX = (startPoint.x+e.nativeEvent.offsetX)/2;
             const centerY = (startPoint.y+e.nativeEvent.offsetY)/2;
             const radiusX = Math.abs(e.nativeEvent.offsetX-startPoint.x)/2;
             const radiusY = Math.abs(e.nativeEvent.offsetY-startPoint.y)/2;
-            drawEllipse(tempCtx,centerX,centerY,radiusX,radiusY);
+            drawEllipse(tempCtx,centerX,centerY,radiusX,radiusY,currFillColor);
         }
         else if(selectedTool==="pen"){
             const x = e.nativeEvent.offsetX;
@@ -308,7 +309,6 @@ const DrawingBoard = ()=>{
             setElements((prevElements)=>{
                 const elementsToDelete = prevElements.filter((element)=> isElementNear(element,x,y));
                 const updatedElements = prevElements.filter((element)=> !isElementNear(element,x,y));
-
                 reDrawCanvas(updatedElements);
                 return updatedElements;
             });
@@ -342,12 +342,12 @@ const DrawingBoard = ()=>{
             else if(element.type==="rectangle"){
                 persistentCtx.lineWidth = element.brushSize;
                 persistentCtx.strokeStyle = element.brushColor;
-                drawRectangle(persistentCtx,element.x1,element.y1,element.width,element.height);
+                drawRectangle(persistentCtx,element.x1,element.y1,element.width,element.height,element.fillColor);
             }
             else if(element.type==="circle"){
                 persistentCtx.lineWidth = element.brushSize;
                 persistentCtx.strokeStyle = element.brushColor;
-                drawEllipse(persistentCtx,element.x1, element.y1,element.radiusX, element.radiusY);
+                drawEllipse(persistentCtx,element.x1, element.y1,element.radiusX, element.radiusY,element.fillColor);
             }
             else if(element.type==="arrow"){
                 persistentCtx.lineWidth = element.brushSize;
@@ -376,7 +376,7 @@ const DrawingBoard = ()=>{
         persistentCtx.strokeStyle = currentBrushColor;
         tempCtx.lineWidth = currentBrushSize;
         tempCtx.strokeStyle = currentBrushColor;
-        persistentCtxRef.current.fillStyle = currentBrushColor;
+        persistentCtxRef.current.fillStyle = currFillColor;
         persistentCtxRef.current.font = `${currentBrushSize}px 'Architects Daughter'`;
     }
 
@@ -385,7 +385,12 @@ const DrawingBoard = ()=>{
         if(elements.length<1) return;
         const lastElement = elements[elements.length-1];
         setRedoHistory((prevHistory)=>[...prevHistory,lastElement]);
-        setElements((prevElements)=>prevElements.slice(0,-1));
+        setElements((prevElements)=>{
+            const updatedElements = prevElements.slice(0,-1);
+            reDrawCanvas(updatedElements);
+            return updatedElements;
+        });
+        reDrawCanvas(elements);
     };
 
     const redo = ()=>{
@@ -399,6 +404,7 @@ const DrawingBoard = ()=>{
             });
 
             const updatedElements = [...prevElements,nextElement];
+            reDrawCanvas(updatedElements);
             return updatedElements;
         });
     };
@@ -457,7 +463,8 @@ const DrawingBoard = ()=>{
                 width: width,
                 height: height,
                 brushSize: currentBrushSize,
-                brushColor: currentBrushColor
+                brushColor: currentBrushColor,
+                fillColor: currFillColor
             };
 
             setElements((prevElement)=>{
@@ -480,7 +487,8 @@ const DrawingBoard = ()=>{
                 radiusX:radiusX,
                 radiusY:radiusY,
                 brushSize: currentBrushSize,
-                brushColor: currentBrushColor
+                brushColor: currentBrushColor,
+                fillColor: currFillColor
             };
 
             setElements((prevElement)=>{
@@ -552,15 +560,26 @@ const DrawingBoard = ()=>{
         tempCtx.clearRect(0,0,tempCanvasRef.current.width, tempCanvasRef.current.height);
     };
 
+    const save = ()=>{  
+        const canvas = persistentCanvasRef.current;
+        const link = document.createElement('a');
+        link.download = 'creation.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }
+
     return(
         <>
         <div className={Styles.main_DrawingBoard}>
-        <ToolBar undo={undo} redo={redo} selectedTool={selectedTool} setSelectedTool={setSelectedTool} clearBoard={clearBoard}/>
+        <ToolBar undo={undo} redo={redo} selectedTool={selectedTool} setSelectedTool={setSelectedTool} clearBoard={clearBoard} save={save}/>
         <ToolFeatures 
             currentBrushSize={currentBrushSize}
             setCurrentBrushSize={setCurrentBrushSize}
             currentBrushColor={currentBrushColor}
             setBrushColor={setBrushColor}
+            currFillColor={currFillColor}
+            setFillColor={setFillColor}
+            selectedTool={selectedTool}
             />
         </div>
         

@@ -152,4 +152,10 @@ export const TOOLS = [
       <svg width="24px" height="24px" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><path d="M3 12H1.594a10.406 10.406 0 0 1 18.563 -6.462V3.984h1.406v4.922H16.641v-1.406h3.153A9.01 9.01 0 0 0 12 3C7.037 3 3 7.037 3 12m18 0c0 4.963 -4.037 9 -9 9a9.01 9.01 0 0 1 -7.794 -4.5H7.359v-1.406H2.438v4.922h1.406v-1.554A10.406 10.406 0 0 0 22.406 12Z"/></svg>
     ),
   },
+  {
+    name: "save",
+    icon:(
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve" width="32" height="32"><path fill="none" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" d="M18.75 21H5.25M12 17.25V3m-5.25 9L12 17.25 17.25 12"/></svg>
+    )
+  }
 ];

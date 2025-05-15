@@ -1,20 +1,32 @@
 import Styles from '../styles/ToolFeatures.module.css'
 import BrushSizeSlider from './BrushSizeSlider';
-import { StrokeColor } from './StrokeColor';
+import { ColorPalette } from './ColorPalette';
 
-const ToolFeatures = ({currentBrushSize, setCurrentBrushSize, currentBrushColor, setBrushColor})=>{
+const ToolFeatures = ({currentBrushSize, setCurrentBrushSize, currentBrushColor, setBrushColor, currFillColor, setFillColor, selectedTool})=>{
     return(
         <>
-        <div className={Styles.main_ToolFeatures}>
-            <StrokeColor
-                currentBrushColor={currentBrushColor}
-                setBrushColor={setBrushColor}
+        {
+             (selectedTool!="eraser" && selectedTool!="magic_eraser" && selectedTool!="save") &&
+              <div className={Styles.main_ToolFeatures}>
+            <ColorPalette
+                labelName="Brush Color"
+                currentColor={currentBrushColor}
+                setColor={setBrushColor}
             />
             <BrushSizeSlider 
                 currentBrushSize={currentBrushSize} 
                 setCurrentBrushSize={setCurrentBrushSize}
             />
+            {
+            (selectedTool==="circle" || selectedTool==="rectangle") &&
+             <ColorPalette
+                labelName="Fill Color"
+                currentColor={currFillColor}
+                setColor={setFillColor}
+            />}
         </div>
+        }
+       
         </>
     )
 }

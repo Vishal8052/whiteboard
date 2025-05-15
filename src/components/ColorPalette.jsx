@@ -1,21 +1,21 @@
 import { presetColors } from '../constants';
-import Styles from '../styles/StrokeColor.module.css'
+import Styles from '../styles/ColorPalette.module.css'
 
-const StrokeColor = ({currentBrushColor, setBrushColor})=>{
+const ColorPalette = ({labelName, currentColor, setColor})=>{
     return(
         <>
-            <label>Brush Color</label>
+            <label>{labelName}</label>
             <div className={Styles.colorPicker}>
                 <input type="color" 
-                    value={currentBrushColor}
-                    onChange={(e)=>setBrushColor(e.target.value)}
+                    value={currentColor}
+                    onChange={(e)=>setColor(e.target.value)}
                 />
                 {presetColors.map((color)=>(
                     <button
                         key={color}
                         className={Styles.colorButton}
                         style={{backgroundColor: color}}
-                        onClick={()=>setBrushColor(color)}
+                        onClick={()=>setColor(color)}
                     />
                 ))}
        </div> 
@@ -24,4 +24,4 @@ const StrokeColor = ({currentBrushColor, setBrushColor})=>{
     )
 }
 
-export {StrokeColor};
+export {ColorPalette};

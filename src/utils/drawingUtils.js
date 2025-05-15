@@ -6,15 +6,24 @@ const drawingUtils = {
         ctx.stroke();
     },
 
-    drawRectangle(ctx,x1,y1,width,height){
+    drawRectangle(ctx,x1,y1,width,height,fillColor){
         ctx.beginPath();
         ctx.rect(x1,y1,width,height);
+
+        if(fillColor){
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+        }
         ctx.stroke();
     },
 
-    drawEllipse(ctx, centerX, centerY, radiusX, radiusY){
+    drawEllipse(ctx, centerX, centerY, radiusX, radiusY,fillColor){
         ctx.beginPath();
         ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
+        if(fillColor){
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+        }
         ctx.stroke();
     },
 
