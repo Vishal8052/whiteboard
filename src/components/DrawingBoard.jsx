@@ -40,7 +40,7 @@ const DrawingBoard = ()=>{
 
     const [currentBrushSize, setCurrentBrushSize] = useState(1);
     const [currentBrushColor, setBrushColor] = useState("black");
-    const [currFillColor, setFillColor] = useState("black");
+    const [currFillColor, setFillColor] = useState(null);
 
     //save the elements in the local storage as soon as the elements array changes
     useEffect(()=>{
